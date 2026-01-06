@@ -1,120 +1,105 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import Footer from "./Footer";
 
 export default function Layout({ children }) {
-  const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
-    <div className="min-h-screen flex flex-col bg-green-900 text-white">
-      
-      {/* ===== HEADER / NAVBAR ===== */}
-      <header className="bg-green-800 px-6 py-4 flex justify-between items-center relative">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-sky-400">
-          FarmHub
-        </Link>
+    <div className="flex flex-col min-h-screen">
+      {/* Navbar */}
+      <nav className="bg-green-900 text-white shadow-md">
+        <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <img src="/logo.png" alt="FarmHub Logo" className="w-8 h-8" />
+            <span className="text-xl font-bold">FarmHub</span>
+          </Link>
 
-        {/* Desktop Menu */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="hover:text-sky-400">Home</Link>
-          <Link to="/blog" className="hover:text-sky-400">Blog</Link>
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex space-x-6 items-center">
+            <li><Link to="/" className="hover:underline">Home</Link></li>
+            <li className="relative group">
+              <span className="cursor-pointer hover:underline">Menu ▾</span>
+              <ul className="absolute left-0 mt-2 w-40 bg-green-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity invisible group-hover:visible z-10">
+                <li><Link to="/about" className="block px-4 py-2 hover:bg-green-700">About Us</Link></li>
+                <li><Link to="/privacy" className="block px-4 py-2 hover:bg-green-700">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="block px-4 py-2 hover:bg-green-700">Terms</Link></li>
+                <li><Link to="/services" className="block px-4 py-2 hover:bg-green-700">Services</Link></li>
+                <li><Link to="/contactus" className="block px-4 py-2 hover:bg-green-700">Contact Us</Link></li>
+              </ul>
+            </li>
 
-          {/* Services Dropdown */}
-          <div className="relative group">
-            <span className="cursor-pointer hover:text-sky-400">
-              Services
-            </span>
-            <div className="absolute hidden group-hover:block bg-white text-black mt-2 rounded shadow-lg w-56">
-              <Link to="/about" className="block px-4 py-2 hover:bg-gray-100">About FarmHub</Link>
-              <Link to="/services" className="block px-4 py-2 hover:bg-gray-100">AI Crop Advisory</Link>
-              <Link to="/privacy" className="block px-4 py-2 hover:bg-gray-100">Privacy Policy</Link>
-              <Link to="/terms" className="block px-4 py-2 hover:bg-gray-100">Terms & Conditions</Link>
-            </div>
-          </div>
-
-          <Link to="/contact" className="hover:text-sky-400">Contact</Link>
-
-          {/* Account Dropdown */}
-          <div className="relative group">
-            <span className="cursor-pointer hover:text-sky-400">
-              Account
-            </span>
-            <div className="absolute hidden group-hover:block bg-white text-black mt-2 rounded shadow-lg w-56">
-              {!user && (
-                <>
-                  <Link to="/login" className="block px-4 py-2 hover:bg-gray-100">Login</Link>
-                  <Link to="/register" className="block px-4 py-2 hover:bg-gray-100">Register</Link>
-                </>
-              )}
-
-              {user && (
-                <>
-                  <Link to="/dashboard" className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
-                  <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
+            {/* Account Dropdown */}
+            <li className="relative group">
+              <span className="cursor-pointer hover:underline">Account ▾</span>
+              <ul className="absolute right-0 mt-2 w-40 bg-green-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity invisible group-hover:visible z-10">
+                {!user && <li><Link to="/login" className="block px-4 py-2 hover:bg-green-700">Login</Link></li>}
+                {!user && <li><Link to="/register" className="block px-4 py-2 hover:bg-green-700">Register</Link></li>}
+                {user && <li><Link to="/dashboard" className="block px-4 py-2 hover:bg-green-700">Dashboard</Link></li>}
+                {user && <li>
                   <button
                     onClick={logout}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    className="w-full text-left px-4 py-2 hover:bg-green-700"
                   >
                     Logout
                   </button>
-                </>
-              )}
-            </div>
-          </div>
-        </nav>
+                </li>}
+              </ul>
+            </li>
+          </ul>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-2xl"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="absolute top-16 left-0 w-full bg-green-800 flex flex-col p-6 space-y-4 md:hidden z-50">
-            <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-            <Link to="/blog" onClick={() => setMenuOpen(false)}>Blog</Link>
-            <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-            <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-
-            {!user && (
-              <>
-                <Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
-                <Link to="/register" onClick={() => setMenuOpen(false)}>Register</Link>
-              </>
-            )}
-
-            {user && (
-              <>
-                <Link to="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-                <Link to="/profile" onClick={() => setMenuOpen(false)}>Profile</Link>
-                <button onClick={logout}>Logout</button>
-              </>
-            )}
-          </div>
-        )}
-      </header>
-
-      {/* ===== PAGE CONTENT ===== */}
-      <main className="flex-1 p-6">
-        {children}
-      </main>
-
-      {/* ===== FOOTER ===== */}
-      <footer className="bg-green-800 text-center py-6 mt-auto space-y-2">
-        <div className="space-x-4">
-          <Link to="/about" className="hover:text-sky-400">About Us</Link> |
-          <Link to="/terms" className="hover:text-sky-400">Terms & Conditions</Link> |
-          <Link to="/privacy" className="hover:text-sky-400">Privacy Policy</Link>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-white focus:outline-none"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? "✖" : "☰"}
+          </button>
         </div>
-        <p className="mt-2 text-sm">
-          © 2026 FarmHub – Empowering Farmers with AI & Smart Agriculture
-        </p>
-      </footer>
+
+        {/* Mobile Dropdown Menu */}
+        {menuOpen && (
+          <ul className="md:hidden bg-green-800 space-y-2 p-4">
+            <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
+            <li>
+              <span className="block cursor-pointer">Menu ▾</span>
+              <ul className="pl-4 mt-1 space-y-1">
+                <li><Link to="/about" onClick={() => setMenuOpen(false)}>About Us</Link></li>
+                <li><Link to="/privacy" onClick={() => setMenuOpen(false)}>Privacy Policy</Link></li>
+                <li><Link to="/terms" onClick={() => setMenuOpen(false)}>Terms</Link></li>
+                <li><Link to="/services" onClick={() => setMenuOpen(false)}>Services</Link></li>
+                <li><Link to="/contactus" onClick={() => setMenuOpen(false)}>Contact Us</Link></li>
+              </ul>
+            </li>
+
+            <li>
+              <span className="block cursor-pointer">Account ▾</span>
+              <ul className="pl-4 mt-1 space-y-1">
+                {!user && <li><Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link></li>}
+                {!user && <li><Link to="/register" onClick={() => setMenuOpen(false)}>Register</Link></li>}
+                {user && <li><Link to="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>}
+                {user && <li>
+                  <button
+                    onClick={() => { logout(); setMenuOpen(false); }}
+                    className="w-full text-left"
+                  >
+                    Logout
+                  </button>
+                </li>}
+              </ul>
+            </li>
+          </ul>
+        )}
+      </nav>
+
+      {/* Main Content */}
+      <main className="flex-grow">{children}</main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
