@@ -6,11 +6,7 @@ import axios from "axios";
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -25,12 +21,9 @@ export default function Login() {
 
     try {
       const res = await axios.post(`${API_URL}/users/login`, formData);
-      console.log("Login success:", res.data);
-
-      // Store user/token in AuthContext
-      login(res.data);
-
-      navigate("/dashboard"); // redirect after login
+      // res.data should include { token, name, email, role }
+      login(res.data); // store user + token in AuthContext
+      navigate("/dashboard");
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "Login failed");

@@ -24,8 +24,8 @@ export default function Register() {
 
     try {
       const res = await axios.post(`${API_URL}/users/register`, formData);
-      console.log("User registered:", res.data);
-      navigate("/login"); // redirect to login after registration
+      console.log("Registered:", res.data);
+      navigate("/login"); // redirect after successful registration
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "Registration failed");
@@ -39,9 +39,7 @@ export default function Register() {
           Create Account
         </h1>
 
-        {error && (
-          <p className="text-red-600 text-center mb-4">{error}</p>
-        )}
+        {error && <p className="text-red-600 text-center mb-4">{error}</p>}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <input
