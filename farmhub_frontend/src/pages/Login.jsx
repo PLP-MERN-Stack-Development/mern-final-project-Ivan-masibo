@@ -1,24 +1,80 @@
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    login("Farmer John"); // simulate login
-    navigate("/dashboard");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const res = await axios.post(`${API_URL}/users/login`, formData);
+      console.log("Login success:", res.data);
+
+      // Store user/token in AuthContext
+      login(res.data);
+
+      navigate("/dashboard"); // redirect after login
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "Login failed");
+    }
   };
 
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold mb-4">Login</h1>
-      <button
-        onClick={handleLogin}
-        className="bg-green-700 text-white px-6 py-3 rounded-lg"
-      >
-        Login as Farmer John
-      </button>
+    <div className="min-h-screen flex items-center justify-center bg-green-50">
+      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center text-green-700 mb-6">
+          Login
+        </h1>
+
+        {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full px-4 py-2 border rounded-lg"
+            required
+          />
+
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full px-4 py-2 border rounded-lg"
+            required
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

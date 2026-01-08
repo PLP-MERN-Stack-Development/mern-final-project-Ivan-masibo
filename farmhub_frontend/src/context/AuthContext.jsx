@@ -1,15 +1,31 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-// Create context
 const AuthContext = createContext();
 
-// Only one export for AuthProvider
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null); // null = not logged in
+  // Try to get user from localStorage
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("farmhubUser");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  // Fake login/logout for now
-  const login = (username) => setUser({ name: username });
-  const logout = () => setUser(null);
+  // Login function — stores user and JWT
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem("farmhubUser", JSON.stringify(userData));
+  };
+
+  // Logout function — removes user and JWT
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("farmhubUser");
+  };
+
+  // Optional: refresh user from localStorage on mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem("farmhubUser");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
