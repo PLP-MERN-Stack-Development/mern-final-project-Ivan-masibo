@@ -11,17 +11,15 @@ import API from "../api/axios";
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const { farmId } = useParams(); // Get farmId from URL
+  const { farmId } = useParams();
   const [notes, setNotes] = useState("");
   const [savedNotes, setSavedNotes] = useState([]);
   const [weather, setWeather] = useState(null);
   const [crops, setCrops] = useState([]);
   const [livestock, setLivestock] = useState([]);
 
-  // Fetch farm crops and livestock
   useEffect(() => {
     if (!farmId) return;
-
     const fetchFarmData = async () => {
       try {
         const cropsRes = await API.get(`/farms/${farmId}/crops`);
@@ -32,11 +30,9 @@ export default function Dashboard() {
         console.error("Failed to fetch farm data:", err);
       }
     };
-
     fetchFarmData();
   }, [farmId]);
 
-  // Fetch notes per farm
   useEffect(() => {
     if (farmId) {
       getNotes(farmId)
@@ -47,7 +43,7 @@ export default function Dashboard() {
 
   const handleSaveNote = async () => {
     if (!notes.trim()) return;
-    await saveNote(farmId, notes); // Notes linked to farm
+    await saveNote(farmId, notes);
     setNotes("");
     getNotes(farmId).then(setSavedNotes).catch(console.error);
   };
@@ -55,7 +51,6 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="p-6 md:p-10 space-y-10">
-
         {/* Header */}
         <header className="bg-gradient-to-r from-green-800 to-sky-700 p-6 rounded-xl shadow-lg">
           <h1 className="text-3xl md:text-4xl font-bold text-white">
@@ -66,13 +61,12 @@ export default function Dashboard() {
           </p>
         </header>
 
-        {/* Top Widgets: Weather + Crop Recommendation + Disease Scanner */}
+        {/* Top Widgets */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <GPSWeather onWeather={setWeather} />
             {weather && <CropRecommendation weather={weather} />}
           </div>
-
           <div>
             <CropDiseaseScanner />
           </div>
@@ -119,16 +113,12 @@ export default function Dashboard() {
 
         {/* AI Agent + Notes */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* AI Agent */}
           <div className="bg-gradient-to-br from-green-800 to-sky-800 p-6 rounded-xl shadow-lg">
             <AIAgent />
           </div>
-          {/* AI Chat Section */}
-<section className="bg-gradient-to-br from-green-700 to-sky-800 p-6 rounded-xl shadow-lg mt-6">
-  <h2 className="text-2xl font-bold mb-3 text-white">💬 AI Chat</h2>
-  <AIChat />
-</section>
 
-
+          {/* Farm Notes */}
           <div className="bg-green-800 p-6 rounded-xl shadow-lg">
             <h2 className="text-2xl font-bold mb-3">📝 Farm Notes</h2>
             <textarea
@@ -143,7 +133,6 @@ export default function Dashboard() {
             >
               Save Note
             </button>
-
             <ul className="mt-4 space-y-2 max-h-64 overflow-y-auto">
               {savedNotes.map((note) => (
                 <li
@@ -160,5 +149,3 @@ export default function Dashboard() {
     </Layout>
   );
 }
-
-        
