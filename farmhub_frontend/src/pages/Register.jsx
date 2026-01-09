@@ -4,15 +4,19 @@ import axios from "axios";
 
 export default function Register() {
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
+    confirmPassword: "",
     role: "Farmer",
   });
-  const [error, setError] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,13 +26,33 @@ export default function Register() {
     e.preventDefault();
     setError("");
 
+    // 🔐 Password confirmation check
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const res = await axios.post(`${API_URL}/users/register`, formData);
+      setLoading(true);
+
+      const { confirmPassword, ...payload } = formData;
+
+      const res = await axios.post(
+        `${API_URL}/users/register`,
+        payload
+      );
+
       console.log("Registered:", res.data);
-      navigate("/login"); // redirect after successful registration
+
+      // 🚧 For now we redirect to login
+      // Next step we will auto-login + dashboard
+      navigate("/login");
+
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,7 +63,9 @@ export default function Register() {
           Create Account
         </h1>
 
-        {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-600 text-center mb-4">{error}</p>
+        )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <input
@@ -63,11 +89,31 @@ export default function Register() {
           />
 
           <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="Phone Number"
+            className="w-full px-4 py-2 border rounded-lg"
+            required
+          />
+
+          <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
+            className="w-full px-4 py-2 border rounded-lg"
+            required
+          />
+
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm Password"
             className="w-full px-4 py-2 border rounded-lg"
             required
           />
@@ -78,15 +124,16 @@ export default function Register() {
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg"
           >
-            <option>Farmer</option>
-            <option>Admin</option>
+            <option value="Farmer">Farmer</option>
+            <option value="Admin">Admin</option>
           </select>
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+            disabled={loading}
+            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 disabled:opacity-50"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>

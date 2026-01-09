@@ -122,6 +122,12 @@ export default function Dashboard() {
           <div className="bg-gradient-to-br from-green-800 to-sky-800 p-6 rounded-xl shadow-lg">
             <AIAgent />
           </div>
+          {/* AI Chat Section */}
+<section className="bg-gradient-to-br from-green-700 to-sky-800 p-6 rounded-xl shadow-lg mt-6">
+  <h2 className="text-2xl font-bold mb-3 text-white">💬 AI Chat</h2>
+  <AIChat />
+</section>
+
 
           <div className="bg-green-800 p-6 rounded-xl shadow-lg">
             <h2 className="text-2xl font-bold mb-3">📝 Farm Notes</h2>
@@ -154,3 +160,6 @@ export default function Dashboard() {
     </Layout>
   );
 }
+
+<AIChat />
+        
