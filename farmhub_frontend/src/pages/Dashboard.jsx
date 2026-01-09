@@ -161,5 +161,4 @@ export default function Dashboard() {
   );
 }
 
-<AIChat />
         
