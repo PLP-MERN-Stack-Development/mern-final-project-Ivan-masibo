@@ -11,8 +11,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Farms from "./pages/Farms";
 import Crops from "./pages/Crops";
-import ContactUs from "./pages/ContactUs"
-
+import ContactUs from "./pages/ContactUs";
 
 export default function App() {
   return (
@@ -26,11 +25,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
-          <Route path="/farms" element={<Farms />} />
-          <Route path="/crops" element={<Crops />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/contactus" element={<ContactUs />} />
-        
 
           {/* Protected Routes */}
           <Route
@@ -38,6 +33,22 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/farms"
+            element={
+              <ProtectedRoute>
+                <Farms />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/crops"
+            element={
+              <ProtectedRoute>
+                <Crops />
               </ProtectedRoute>
             }
           />
