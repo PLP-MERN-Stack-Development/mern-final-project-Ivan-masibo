@@ -49,4 +49,175 @@ Your project will be automatically submitted when you push to your GitHub Classr
 - [Express.js Documentation](https://expressjs.com/)
 - [React Documentation](https://react.dev/)
 - [Node.js Documentation](https://nodejs.org/en/docs/)
-- [GitHub Classroom Guide](https://docs.github.com/en/education/manage-coursework-with-github-classroom) 
+- [GitHub Classroom Guide](https://docs.github.com/en/education/manage-coursework-with-github-classroo FarmHub – Smart Farming & Market Link Platform
+📌 Overview
+
+FarmHub is a digital platform designed to connect farmers, buyers, and agribusiness stakeholders through a simple and efficient system. The platform helps farmers manage produce, access markets, and receive timely information, while buyers can easily discover and source farm products.
+
+FarmHub aims to reduce middlemen, improve transparency, and increase farmer income by leveraging modern web technologies.
+
+🎯 Key Objectives
+
+Connect farmers directly with buyers
+
+Improve access to agricultural markets
+
+Digitize farm produce listing and management
+
+Enhance transparency in pricing and availability
+
+Support agribusiness growth through technology
+
+🧩 How FarmHub Works
+1️⃣ User Registration & Login
+
+Users can register as Farmers or Buyers
+
+Secure authentication system (login & logout)
+
+User roles determine accessible features
+
+2️⃣ Farmer Dashboard
+
+Farmers can:
+
+Add and manage farm products (crops, livestock, produce)
+
+Update product quantities and prices
+
+View buyer requests and inquiries
+
+Track listed products in real time
+
+3️⃣ Buyer Dashboard
+
+Buyers can:
+
+Browse available farm products
+
+Search and filter by category, price, or location
+
+View farmer profiles and product details
+
+Contact farmers directly for negotiation or purchase
+
+4️⃣ Product Management
+
+Products include name, category, price, quantity, and description
+
+Farmers can edit or remove products anytime
+
+Real-time updates reflect instantly on the marketplace
+
+5️⃣ Market Connectivity
+
+Direct farmer-to-buyer communication
+
+Eliminates unnecessary intermediaries
+
+Encourages fair pricing and trust
+
+6️⃣ Admin Management
+
+Admins can:
+
+Manage users and platform content
+
+Monitor product listings
+
+Ensure platform compliance and security
+
+🛠️ Technology Stack
+Frontend
+
+React.js
+
+HTML5, CSS3, JavaScript
+
+Backend
+
+Node.js
+
+Express.js
+
+Database
+
+MongoDB
+
+Authentication
+
+JSON Web Tokens (JWT)
+
+🚀 Installation & Setup
+# Clone the repository
+git clone https://github.com/your-username/farmhub.git
+
+# Navigate to project folder
+cd farmhub
+
+# Install dependencies
+npm install
+
+# Start the backend server
+npm run server
+
+# Start the frontend
+npm start
+
+📂 Project Structure
+farmhub/
+│── backend/
+│   ├── models/
+│   ├── routes/
+│   ├── controllers/
+│   └── server.js
+│
+│── frontend/
+│   ├── src/
+│   ├── components/
+│   └── App.js
+│
+└── README.md
+
+🔐 Security Features
+
+Password hashing
+
+JWT-based authentication
+
+Role-based access control
+
+📈 Future Enhancements
+
+Mobile app integration
+
+Payment integration (M-Pesa)
+
+AI-powered price recommendations
+
+Weather and market alerts
+
+Logistics and delivery tracking
+
+🤝 Contribution
+
+Contributions are welcome!
+
+Fork the repository
+
+Create a feature branch
+
+Commit your changes
+
+Open a pull request
+
+📄 License
+
+This project is licensed under the MIT License.
+
+👤 Author
+
+Evans Masibo Mang’eni
+📧 Email: evansivan048@gmail.com
+
+🌍 Location: Nairobi,Kenya
